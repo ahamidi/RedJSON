@@ -1,19 +1,47 @@
--- RedJSON Lib - Create Index
+-- RedJSON Lib - Index
 --
 -- Author: Ali Hamidi <ahamidi@me.com>
 --
 -- Functionality:
--- Take JSON field and create a sorted list of document keys
+--   Create:
+--     Args(2) - "create", "<field to index>"
+--     Keys(0) - N/A
+--     Take JSON field and create a sorted list of document keys
 --
 ----------------------------------------
+
 local command = ARGV[1]
+
+local function notSystem(key)
+   local substring = string.sub(key, 1, string.len("system") )
+   return substring ~= "system"
+end
+
+local function getField(key, field)
+  local val = redis.call('GET', key)
+  local result = cjson.decode(cmsgpack.unpack(val))[field]
+
+  return result
+end
 
 if command == "create" then
   -- create the index
-  return redis.call('ZADD', KEYS[1], '1', 'one', '2', 'two')
+
+  -- Get all keys
+  local keys = redis.call('KEYS', '*')
+
+  for _,key in ipairs(keys) do
+    if notSystem(key) then
+      -- System keys, don't do anything
+      local val = getField(key, ARGV[2])
+      redis.call('ZADD', "system:index:"..ARGV[2], val, key)
+    end
+  end
+
+  return "created"
 elseif command == "info" then
   -- get index info
-  return redis.call('ZCARD', KEYS[1])
+  return redis.call('ZCARD', "system:index:"..ARGV[2])
 elseif command == "update" then
   -- update the index
   return "updated"
