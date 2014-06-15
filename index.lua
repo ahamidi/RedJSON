@@ -22,6 +22,7 @@ end
 
 -- Create Index
 local function createIndex(field)
+
   -- Get all keys
   local keys = redis.call('KEYS', '*')
 
@@ -43,6 +44,7 @@ end
 
 -- Update Index
 local function updateIndex(index)
+  -- TODO
   return "updated"
 end
 
