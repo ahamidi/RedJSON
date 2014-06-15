@@ -45,4 +45,8 @@ elseif command == "info" then
 elseif command == "update" then
   -- update the index
   return "updated"
+
+elseif command == "query" then
+  -- query index
+  return redis.call('ZRANGEBYSCORE', "system:index:"..ARGV[2], ARGV[3],ARGV[4])
 end
