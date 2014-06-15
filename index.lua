@@ -12,11 +12,13 @@
 
 local command = ARGV[1]
 
+-- Helper to exclude system keys from processing
 local function notSystem(key)
    local substring = string.sub(key, 1, string.len("system") )
    return substring ~= "system"
 end
 
+-- Helper to parse packed docs
 local function getField(key, field)
   local val = redis.call('GET', key)
   local result = cjson.decode(cmsgpack.unpack(val))[field]
@@ -24,29 +26,44 @@ local function getField(key, field)
   return result
 end
 
-if command == "create" then
-  -- create the index
-
+-- Create Index
+local function createIndex(field)
   -- Get all keys
   local keys = redis.call('KEYS', '*')
 
   for _,key in ipairs(keys) do
     if notSystem(key) then
       -- System keys, don't do anything
-      local val = getField(key, ARGV[2])
-      redis.call('ZADD', "system:index:"..ARGV[2], val, key)
+      local val = getField(key, field)
+      redis.call('ZADD', "system:index:"..field, val, key)
     end
   end
 
   return "created"
-elseif command == "info" then
-  -- get index info
-  return redis.call('ZCARD', "system:index:"..ARGV[2])
-elseif command == "update" then
-  -- update the index
-  return "updated"
+end
 
+-- Index Info
+local function indexInfo(index)
+  return redis.call('ZCARD', "system:index:"..index)
+end
+
+-- Update Index
+local function updateIndex(index)
+  return "updated"
+end
+
+-- Query Index
+local function queryIndex(index, startKey, endKey)
+  return redis.call('ZRANGEBYSCORE', "system:index:"..index, startKey, endKey)
+end
+
+-- MAIN
+if command == "create" then
+  return createIndex(ARGV[2])
+elseif command == "info" then
+  return indexInfo(ARGV[2])
+elseif command == "update" then
+  return updateIndex(ARGV[2])
 elseif command == "query" then
-  -- query index
-  return redis.call('ZRANGEBYSCORE', "system:index:"..ARGV[2], ARGV[3],ARGV[4])
+  return queryIndex(ARGV[2], ARGV[3], ARGV[4])
 end
