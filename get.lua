@@ -4,6 +4,4 @@
 --
 ----------------------------------------
 
--- TODO:
--- - Deal with index updating
 return cjson.encode(cmsgpack.unpack(redis.call('get',KEYS[1])))
