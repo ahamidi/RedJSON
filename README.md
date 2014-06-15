@@ -14,6 +14,9 @@ An experiment in Redis JSONification
   * Update Index
   * Query Index
 
+## Documentation
+[Indexing](docs/indexes.md)
+
 ## TODO
 - [x] Set
 - [x] Get
