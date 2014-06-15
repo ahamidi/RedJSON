@@ -7,7 +7,7 @@ An experiment in Redis JSONification
 
 * JSON Document
   * Use MsgPack to save space
-* Set/Get
+* Set/Get/Delete
 * Indexing
   * Create Index
   * Get Index Info
@@ -17,8 +17,10 @@ An experiment in Redis JSONification
 ## TODO
 - [x] Set
 - [x] Get
-- [ ] Delete
-- [ ] Create Index
+- [x] Delete
+- [x] Create Index
 - [x] Get Index Info
-- [ ] Update Index
-- [ ] Query Index
+- [x] Update Index on Set
+- [x] Update Index on Delete
+- [x] Query Index
+- [ ] Cater for indexing of nested fields
