@@ -22,6 +22,8 @@ end
 
 -- Create Index
 local function createIndex(field)
+  -- Add indexed field to indexes list
+  redis.call('SADD', "system:indexes", field)
 
   -- Get all keys
   local keys = redis.call('KEYS', '*')
