@@ -1,4 +1,4 @@
--- RedJSON Lib - Set
+-- RedJSON Lib - Delete
 --
 -- Author: Ali Hamidi <ahamidi@me.com>
 --
@@ -6,4 +6,4 @@
 
 -- TODO:
 -- - Deal with index updating
-return redis.call('set', KEYS[1], cmsgpack.pack(cjson.decode(ARGV[1])))
+return redis.call('del', KEYS[1])

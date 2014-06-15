@@ -21,3 +21,13 @@ The above "doc" will result in the index entry `Value: jim@gmail.com, Score: 35`
 Querying is carried out by executing `ZRANGEBYSCORE` with the target scores.
 
 ## Notes
+
+### Updating index on save
+1. Check if doc to be written has required field
+1. If it does, wrap index update + doc save in transaction (`MULTI`)
+1. Execute
+
+### Updating index on delete
+1. Check if key exists in any index
+1. If it does, wrap index update + doc delete in transaction (`MULTI`)
+1. Execute

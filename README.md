@@ -17,6 +17,7 @@ An experiment in Redis JSONification
 ## TODO
 - [x] Set
 - [x] Get
+- [ ] Delete
 - [ ] Create Index
 - [x] Get Index Info
 - [ ] Update Index
