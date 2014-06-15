@@ -46,8 +46,8 @@ end
 
 -- Update Index
 local function updateIndex(index)
-  -- TODO
-  return "updated"
+  -- TODO: Not sure if this is needed, mapping to create for now
+  return createIndex(index)
 end
 
 -- Query Index
