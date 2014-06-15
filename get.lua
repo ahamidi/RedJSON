@@ -3,4 +3,4 @@
 -- Author: Ali Hamidi <ahamidi@me.com>
 --
 ----------------------------------------
-return cmsgpack.unpack(redis.call('get',KEYS[1]))
+return cjson.encode(cmsgpack.unpack(redis.call('get',KEYS[1])))

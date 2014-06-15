@@ -2,12 +2,6 @@
 --
 -- Author: Ali Hamidi <ahamidi@me.com>
 --
--- Functionality:
---   Create:
---     Args(2) - "create", "<field to index>"
---     Keys(0) - N/A
---     Take JSON field and create a sorted list of document keys
---
 ----------------------------------------
 
 local command = ARGV[1]
@@ -21,7 +15,7 @@ end
 -- Helper to parse packed docs
 local function getField(key, field)
   local val = redis.call('GET', key)
-  local result = cjson.decode(cmsgpack.unpack(val))[field]
+  local result = cmsgpack.unpack(val)[field]
 
   return result
 end
